@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmployeProjetModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="EmployeProjetModelStoreContainer">
+    <EntitySet Name="Employe" EntityType="EmployeProjetModel.Store.Employe" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EmployeProjets" EntityType="EmployeProjetModel.Store.EmployeProjets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Projets" EntityType="EmployeProjetModel.Store.Projets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="sysdiagrams" EntityType="EmployeProjetModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_EmployeProjets_Employe" Association="EmployeProjetModel.Store.FK_EmployeProjets_Employe">
+      <End Role="Employe" EntitySet="Employe" />
+      <End Role="EmployeProjets" EntitySet="EmployeProjets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeProjets_Projets" Association="EmployeProjetModel.Store.FK_EmployeProjets_Projets">
+      <End Role="Projets" EntitySet="Projets" />
+      <End Role="EmployeProjets" EntitySet="EmployeProjets" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Employe">
+    <Key>
+      <PropertyRef Name="NoEmploye" />
+    </Key>
+    <Property Name="NoEmploye" Type="int" Nullable="false" />
+    <Property Name="Prenom" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="Nom" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="Telephone" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Courriel" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="EmployeProjets">
+    <Key>
+      <PropertyRef Name="NoProjet" />
+      <PropertyRef Name="NoEmploye" />
+    </Key>
+    <Property Name="NoProjet" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="NoEmploye" Type="int" Nullable="false" />
+    <Property Name="DateAssignee" Type="date" Nullable="false" />
+    <Property Name="DateRemise" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Projets">
+    <Key>
+      <PropertyRef Name="NoProjet" />
+    </Key>
+    <Property Name="NoProjet" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="TitreProjet" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="DateDebut" Type="date" Nullable="false" />
+    <Property Name="DateFin" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_EmployeProjets_Employe">
+    <End Role="Employe" Type="EmployeProjetModel.Store.Employe" Multiplicity="1" />
+    <End Role="EmployeProjets" Type="EmployeProjetModel.Store.EmployeProjets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employe">
+        <PropertyRef Name="NoEmploye" />
+      </Principal>
+      <Dependent Role="EmployeProjets">
+        <PropertyRef Name="NoEmploye" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeProjets_Projets">
+    <End Role="Projets" Type="EmployeProjetModel.Store.Projets" Multiplicity="1" />
+    <End Role="EmployeProjets" Type="EmployeProjetModel.Store.EmployeProjets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Projets">
+        <PropertyRef Name="NoProjet" />
+      </Principal>
+      <Dependent Role="EmployeProjets">
+        <PropertyRef Name="NoProjet" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

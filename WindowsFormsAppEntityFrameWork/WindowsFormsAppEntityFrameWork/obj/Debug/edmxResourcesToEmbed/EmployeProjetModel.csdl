@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmployeProjetModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="EmployeProjetEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Employes" EntityType="EmployeProjetModel.Employe" />
+    <EntitySet Name="EmployeProjets" EntityType="EmployeProjetModel.EmployeProjet" />
+    <EntitySet Name="Projets" EntityType="EmployeProjetModel.Projet" />
+    <EntitySet Name="sysdiagrams" EntityType="EmployeProjetModel.sysdiagram" />
+    <AssociationSet Name="FK_EmployeProjets_Employe" Association="EmployeProjetModel.FK_EmployeProjets_Employe">
+      <End Role="Employe" EntitySet="Employes" />
+      <End Role="EmployeProjet" EntitySet="EmployeProjets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeProjets_Projets" Association="EmployeProjetModel.FK_EmployeProjets_Projets">
+      <End Role="Projet" EntitySet="Projets" />
+      <End Role="EmployeProjet" EntitySet="EmployeProjets" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Employe">
+    <Key>
+      <PropertyRef Name="NoEmploye" />
+    </Key>
+    <Property Name="NoEmploye" Type="Int32" Nullable="false" />
+    <Property Name="Prenom" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+    <Property Name="Nom" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+    <Property Name="Telephone" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Courriel" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="EmployeProjets" Relationship="EmployeProjetModel.FK_EmployeProjets_Employe" FromRole="Employe" ToRole="EmployeProjet" />
+  </EntityType>
+  <EntityType Name="EmployeProjet">
+    <Key>
+      <PropertyRef Name="NoProjet" />
+      <PropertyRef Name="NoEmploye" />
+    </Key>
+    <Property Name="NoProjet" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="NoEmploye" Type="Int32" Nullable="false" />
+    <Property Name="DateAssignee" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DateRemise" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Employe" Relationship="EmployeProjetModel.FK_EmployeProjets_Employe" FromRole="EmployeProjet" ToRole="Employe" />
+    <NavigationProperty Name="Projet" Relationship="EmployeProjetModel.FK_EmployeProjets_Projets" FromRole="EmployeProjet" ToRole="Projet" />
+  </EntityType>
+  <EntityType Name="Projet">
+    <Key>
+      <PropertyRef Name="NoProjet" />
+    </Key>
+    <Property Name="NoProjet" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="TitreProjet" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="DateDebut" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DateFin" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="EmployeProjets" Relationship="EmployeProjetModel.FK_EmployeProjets_Projets" FromRole="Projet" ToRole="EmployeProjet" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Type="String" Name="name" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="principal_id" Nullable="false" />
+    <Property Type="Int32" Name="diagram_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="version" />
+    <Property Type="Binary" Name="definition" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_EmployeProjets_Employe">
+    <End Type="EmployeProjetModel.Employe" Role="Employe" Multiplicity="1" />
+    <End Type="EmployeProjetModel.EmployeProjet" Role="EmployeProjet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employe">
+        <PropertyRef Name="NoEmploye" />
+      </Principal>
+      <Dependent Role="EmployeProjet">
+        <PropertyRef Name="NoEmploye" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeProjets_Projets">
+    <End Type="EmployeProjetModel.Projet" Role="Projet" Multiplicity="1" />
+    <End Type="EmployeProjetModel.EmployeProjet" Role="EmployeProjet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Projet">
+        <PropertyRef Name="NoProjet" />
+      </Principal>
+      <Dependent Role="EmployeProjet">
+        <PropertyRef Name="NoProjet" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
